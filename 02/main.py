@@ -1,6 +1,7 @@
 # main.py
 import shapely
-from shapely import *
+import geojson
+from shapely import wkt
 from flask import Flask
 from flask import jsonify
 from flask import request
