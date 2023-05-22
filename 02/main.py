@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 # Stringa di connessione al DB
 # Importante qui va specificato il nome del DB
-app.config["MONGO_URI"] = "mongodb+srv://GhebrousDavide:vK3lBj1kNsWjEzLb@cluster0.hrgzkja.mongodb.net/ReLab"
+app.config["MONGO_URI"] = "mongodb+srv://GhebrousDavide:nuUndo2XYSnBVe1P@cluster0.hrgzkja.mongodb.net/ReLab"
 
 mongo = PyMongo(app)
 # Per rispondere alle chiamate cross origin
@@ -35,7 +35,7 @@ def get_all_addresses():
     output = []
     for s in mil4326WKT.find().limit(100):
         print(s)
-        output.append({s['INDIRIZZO'], s["FOGLIO"]})
+        output.append({"indirizzo": s['INDIRIZZO'], "foglio": s["FOGLIO"]})
     return jsonify({'result': output})
 
 
@@ -48,7 +48,7 @@ def get_vettore():
     return jsonify({'result': output})
 
 
-@app.route('/ci_vettore/<foglio>', methods=['GET'])
+@app.route('/ci_vettore/<int:foglio>', methods=['GET'])
 def get_vettorefoglio(foglio):
     mil4326WKT = mongo.db.MilWKT4326
     output = []
@@ -56,6 +56,7 @@ def get_vettorefoglio(foglio):
         "FOGLIO": foglio
     }
     for s in mil4326WKT.find(query):
+        print(s)
         output.append({
             "INDIRIZZO": s['INDIRIZZO'],
             "WGS84_X": s["WGS84_X"],
